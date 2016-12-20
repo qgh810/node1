@@ -10,29 +10,32 @@ var users = require('./routes/users');
 
 var app = express();
 
-// view engine setup
+// *********** 模板设置 **********
+// 设置模板放置目录
 app.set('views', path.join(__dirname, 'views'));
+// 设置当前模板
 app.set('view engine', 'jade');
 
-// uncomment after placing your favicon in /public
+// ********* 托管静态资源 ***********
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+// 加载用于解析 cookie 的中间件
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
 
-// catch 404 and forward to error handler
+// 处理404 每个请求都会执行到这一步
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
-// error handler
+// 设置错误处理器
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
